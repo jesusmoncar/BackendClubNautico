@@ -113,6 +113,7 @@ public class TripService {
         response.setDescription(trip.getDescripcion());
         response.setOrganizadorName(trip.getOrganizadorId().getName()); // Suponiendo que User tiene un campo "nombre"
         response.setTripStatus(trip.getStatus());
+        response.setShipId(trip.getShipId().getIdShip());
         return response;
     }
 

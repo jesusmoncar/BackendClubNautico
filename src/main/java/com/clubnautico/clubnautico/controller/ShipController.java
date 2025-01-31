@@ -5,6 +5,7 @@ import com.clubnautico.clubnautico.controller.Models.ShipRequest;
 import com.clubnautico.clubnautico.controller.Models.ShipResponse;
 import com.clubnautico.clubnautico.entity.Ship;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ship")
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:4200")
 public class ShipController {
 
-    private final ShipService shipService;
+    @Autowired
+    private ShipService shipService;
 
     // Obtener un barco por su ID
     @GetMapping("/{id}")

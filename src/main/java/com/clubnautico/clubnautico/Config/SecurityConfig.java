@@ -67,6 +67,7 @@ public class SecurityConfig {
         return new OrRequestMatcher(
                 new AntPathRequestMatcher("/api/auth/**")
 
+
         );
     }
 }
