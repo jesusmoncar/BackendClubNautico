@@ -13,9 +13,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class TripRequest {
 
-    private Date fechayHora;
-    private String description;
-    private Long organizadorId;
     private Long shipId;
+    private String description;
+    private Date fechayHora;
+    private Long organizadorId;
 
 }

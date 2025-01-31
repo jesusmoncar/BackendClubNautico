@@ -24,8 +24,8 @@ public class Trip {
     private User organizadorId; // Id usuario organizador
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ShipId", nullable = false)
-    private Ship ShipId;
+    @JoinColumn(name = "shipId", nullable = false)
+    private Ship shipId;
 
     @Enumerated(EnumType.ORDINAL)
     private TripStatus status;

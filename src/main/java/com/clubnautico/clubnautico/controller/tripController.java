@@ -4,6 +4,7 @@ package com.clubnautico.clubnautico.controller;
 import com.clubnautico.clubnautico.Service.TripService;
 import com.clubnautico.clubnautico.controller.Models.TripRequest;
 import com.clubnautico.clubnautico.controller.Models.TripResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trip")
+@RequiredArgsConstructor
 @CrossOrigin("http://localhost:4200")
 public class tripController {
 
     @Autowired
     private TripService tripService;
-
-
 
     @PostMapping("/create")
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest request) {

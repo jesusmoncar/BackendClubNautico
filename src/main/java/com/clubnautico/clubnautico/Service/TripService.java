@@ -2,11 +2,9 @@ package com.clubnautico.clubnautico.Service;
 
 import com.clubnautico.clubnautico.controller.Models.TripRequest;
 import com.clubnautico.clubnautico.controller.Models.TripResponse;
-import com.clubnautico.clubnautico.entity.Role;
-import com.clubnautico.clubnautico.entity.Trip;
-import com.clubnautico.clubnautico.entity.TripStatus;
-import com.clubnautico.clubnautico.entity.User;
+import com.clubnautico.clubnautico.entity.*;
 import com.clubnautico.clubnautico.exception.NotFound;
+import com.clubnautico.clubnautico.repository.ShipRepository;
 import com.clubnautico.clubnautico.repository.TripRepository;
 import com.clubnautico.clubnautico.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -21,6 +19,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class TripService {
+
+    @Autowired
+    private ShipRepository shipRepository;
 
     @Autowired
     private TripRepository tripRepository;
@@ -38,17 +39,29 @@ public class TripService {
 
     @Transactional
     public TripResponse createTrip(TripRequest request) {
+        // Obtener el usuario autenticado
         User usuarioActual = getAuthenticateUser();
 
         if (usuarioActual.getRole() != Role.USER) {
             throw new RuntimeException("Solo los miembros pueden crear viajes");
         }
 
+        // Aquí validamos que el shipId no sea nulo
+        if (request.getShipId() == null) {
+            throw new RuntimeException("Se debe seleccionar un barco para el viaje.");
+        }
+
+        // Asegúrate de que el barco con el shipId exista
+        Ship ship = shipRepository.findById(request.getShipId())
+                .orElseThrow(() -> new RuntimeException("Barco no encontrado"));
+
+        // Crear el viaje con el barco asociado
         Trip trip = Trip.builder()
                 .fechayHora(request.getFechayHora())
                 .descripcion(request.getDescription())
                 .organizadorId(usuarioActual)
-                .status(TripStatus.PENDING) // Estado inicial
+                .shipId(ship)  // Asignamos el barco al viaje
+                .status(TripStatus.PENDING)  // Estado inicial
                 .build();
 
         Trip savedTrip = tripRepository.save(trip);
